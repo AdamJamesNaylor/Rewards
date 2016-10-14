@@ -1,0 +1,76 @@
+﻿@model Rewards.Controllers.HomeModel
+
+@{
+    ViewBag.Title = "Reward chart";
+}
+
+<style type="text/css">
+    
+    td {
+        border: 1px beige solid;
+        width: 100px;
+        text-align: center;
+    }
+
+</style>
+
+<table>
+    <thead>
+    <tr>
+        <td style="border: none"></td>
+        @foreach (var i in new[] {-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5}) {
+            <td>
+                <h2>@i</h2>
+            </td>
+        }
+    </tr>
+    </thead>
+    @foreach (var kid in Model.Kids)
+    {
+        <tr>
+
+            <td>
+                <h2>@kid.Name</h2>
+            </td>
+            @foreach (var i in new[] { -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5 })
+            {
+                <td>
+                    @if (kid.Score == i) {
+                        <img src="@kid.Image" height="100"/>
+                    }
+                </td>
+            }
+        </tr>
+    }
+</table>
+
+<script type="text/javascript">
+
+    function GetDate() {
+        var date = new Date();
+        var day = date.getDate();        // yields day
+        var month = date.getMonth();    // yields month
+        var year = date.getFullYear();  // yields year
+        var hour = date.getHours();     // yields hours 
+        var minute = date.getMinutes(); // yields minutes
+        var second = date.getSeconds(); // yields seconds
+        return year + "/" + (month + 1) + "/" + day + " " + hour + ":" + minute + ":" + second;
+    }
+
+    var lastCheck = GetDate();
+
+    function check() {
+        $.ajax({
+            url: "/home/update?date=" + lastCheck
+        })
+            .done(function (data) {
+                if (data === true) {
+                    console.log("Updating.");
+                    window.location = "/";
+                }
+            });
+    }
+
+    setInterval(check, 2000);
+
+</script>
