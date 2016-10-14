@@ -1,0 +1,19 @@
+{
+  "Kids": [
+    {
+      "Name": "Jacob",
+      "Image": "jacob.png",
+      "Score": 3
+    },
+    {
+      "Name": "Elliott",
+      "Image": "elliott.jpg",
+      "Score": 0
+    },
+    {
+      "Name": "Oscar",
+      "Image": "oscar.png",
+      "Score": -3
+    }
+  ]
+}
