@@ -2,31 +2,43 @@
 @{
     ViewBag.Title = "AdminView";
 }
-<form actione="/home/admin" method="POST">
-    <table>
+<form actione="/home/admin" method="POST" enctype="multipart/form-data">
+    <table style="width: 100%">
 
-    @for (int i = 0; i < Model.Kids.Count(); i++) {
-        var kid = Model.Kids.ElementAt(i);
+        @for (int i = 0; i < Model.Participants.Count(); i++) {
+            var participant = Model.Participants.ElementAt(i);
+            <tr>
+                <td>
+                    <img src="/@participant.Image" height="100"/>
+                </td>
+                <td>
+                    <h2 style="display: inline; width: 200px">@participant.Name</h2>
+                </td>
+                <td>
+                    <button type="submit" data-score="@(participant.Score - 1)" data-index="@i" class="score">&lt;</button>
+                </td>
+                <td>
+                    <h1>@Html.Raw(participant.Score >= 0 ? "+" : "")@participant.Score</h1>
+                </td>
+                <td>
+                    <button type="submit" data-score="@(participant.Score + 1)" data-index="@i" class="score">&gt;</button>
+                    <input type="hidden" value="@participant.Name" name="Participants[@i].Name"/>
+                    <input type="hidden" value="@participant.Score" name="Participants[@i].Score" id="kidScore-@i"/>
+                    <input type="hidden" value="@participant.Image" name="Participants[@i].Image"/>
+                </td>
+                <td>
+                    Image
+                    <input type="file" name="PostedImage[@i]" value="Choose image"/>
+                </td>
+            </tr>
+        }
         <tr>
-            <td>
-                <img src="/@kid.Image" height="100"/>
-            </td>
-            <td>
-                <h2 style="display: inline; width: 200px">@kid.Name</h2>
-            </td>
-            <td>
-                <h1>@kid.Score</h1>
-            </td>
-            <td>
-                <input type="hidden" value="@kid.Score" name="Kids[@i].Score" id="kidScore-@i" />
-                <button type="submit" data-score="@(kid.Score - 1)" data-index="@i" class="score">&lt;</button>
-                <button type="submit" data-score="@(kid.Score + 1)" data-index="@i" class="score">&gt;</button>
-                <input type="hidden" value="@kid.Name" name="Kids[@i].Name"/>
-                <input type="hidden" value="@kid.Image" name="Kids[@i].Image"/>
+            <td colspan="5" style="text-align:center; padding-top: 20px;">
+                <button type="submit" style="width: 200px; height: 50px;">Submit</button>
             </td>
         </tr>
-    }
     </table>
+
 </form>
 
 

@@ -25,15 +25,12 @@
         }
     </tr>
     </thead>
-    @foreach (var kid in Model.Kids)
-    {
+    @foreach (var kid in Model.Participants) {
         <tr>
-
             <td>
                 <h2>@kid.Name</h2>
             </td>
-            @foreach (var i in new[] { -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5 })
-            {
+            @foreach (var i in new[] { -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5 }) {
                 <td>
                     @if (kid.Score == i) {
                         <img src="@kid.Image" height="100"/>

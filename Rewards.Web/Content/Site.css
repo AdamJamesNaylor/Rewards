@@ -16,3 +16,8 @@ textarea {
     max-width: 280px;
 }
 
+button.score {
+    height: 50px;
+    width: 50px;
+}
+

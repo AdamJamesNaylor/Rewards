@@ -4,6 +4,8 @@ namespace Rewards.Controllers
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
+    using System.Web;
     using System.Web.Mvc;
     using System.Web.Script.Serialization;
     using Newtonsoft.Json;
@@ -36,6 +38,8 @@ namespace Rewards.Controllers
 
         [HttpPost]
         public ActionResult Admin(HomeModel form) {
+            SaveImages(form, Request.Files);
+
             string json = JsonConvert.SerializeObject(form, Formatting.Indented);
             var dataFile = Server.MapPath("~/data.json");
             System.IO.File.WriteAllText(dataFile, json);
@@ -44,6 +48,18 @@ namespace Rewards.Controllers
 
             var model = DeserialiseModel(data);
             return View(model);
+        }
+
+        private void SaveImages(HomeModel model, HttpFileCollectionBase files) {
+
+            for (int i = 0; i < model.Participants.Count(); i++) {
+                var file = files[i];
+                if (file == null || file.ContentLength <= 0)
+                    continue;
+
+                file.SaveAs(Server.MapPath("~/") + file.FileName);
+                model.Participants.ElementAt(i).Image = file.FileName;
+            }
         }
 
         private static HomeModel DeserialiseModel(string data)
@@ -68,13 +84,13 @@ namespace Rewards.Controllers
 
     }
 
-    public class KidModel {
+    public class ParticipantModel {
         public string Name { get; set; }
         public string Image { get; set; }
         public int Score { get; set; }
     }
 
     public class HomeModel {
-        public IEnumerable<KidModel> Kids { get; set; }
+        public IEnumerable<ParticipantModel> Participants { get; set; }
     }
 }
